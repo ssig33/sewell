@@ -30,7 +30,7 @@ module Sewell
         else
           if x.split('').first == '-'
             x.sub!(/^-/, '')
-            "#{k}:!#{sanitize x, /#{k}\:/}"
+            " - #{k}:@#{sanitize x, /#{k}\:/}"
           else
             "#{k}:@#{sanitize x, /#{k}\:/}"
           end
@@ -55,7 +55,7 @@ module Sewell
       else
         if x.split('').first == '-'
           x.sub!(/^-/, '')
-          q << '( ' + tables.map{|t| "#{t}:!#{sanitize(x)}"}.join(' AND ') + ' )'
+          q << ' - ( ' + tables.map{|t| "#{t}:@#{sanitize(x)}"}.join(' OR ') + ' )'
         else
           q << '( ' + tables.map{|t| "#{t}:@#{sanitize(x)}"}.join(' OR ') + ' )'
         end
@@ -70,6 +70,13 @@ module Sewell
     else
       sep = '+'
     end
+    
+    raise if q.map{|x| x =~ /^\ -\ /}.select{|x| x}.count == q.count
+    
+    while q.first =~ /^\ -\ /
+      q.push q.shift
+    end
+    
     query = ''
     q.each_with_index{|x,i|
       next if x == 'OR' or x == 'AND'
@@ -77,6 +84,8 @@ module Sewell
         query += "#{x} OR "
       elsif q[i+1] == 'AND'
         query += "#{x} + "
+      elsif q[i+1] and q[i+1] =~ /^\ -\ /
+        query += x
       elsif q[i+1] != nil
         query += "#{x} #{sep} "
       else

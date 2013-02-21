@@ -8,11 +8,11 @@ describe Sewell do
 
   it 'can generate from string' do
     Sewell.generate('sena:airi OR mashiro AND nuko:buta', %w{sena uryu nuko}).should == '( sena:@airi ) OR ( sena:@mashiro OR uryu:@mashiro OR nuko:@mashiro ) + ( nuko:@buta )'
-    Sewell.generate('-inui airi', ['mashiro']).should == '( mashiro:!inui ) + ( mashiro:@airi )'
+    Sewell.generate('-inui airi', ['mashiro']).should == '( mashiro:@airi ) - ( mashiro:@inui )'
   end
 
   it 'can generate from hash' do
     Sewell.generate({sena: 'airi OR huro', nuko: 'trape'}, 'AND').should == '( sena:@airi OR sena:@huro ) + ( nuko:@trape )'
-    Sewell.generate({mashiro: '-inui airi'}, 'AND').should == '( mashiro:!inui + mashiro:@airi )'
+    Sewell.generate({mashiro: '-inui airi'}, 'AND').should == '( mashiro:@airi - mashiro:@inui )'
   end
 end
