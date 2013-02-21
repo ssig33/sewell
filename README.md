@@ -25,6 +25,8 @@ Or install it yourself as:
   Sewell.generate({sena: 'airi OR huro', nuko: 'trape'}, 'AND') #=> ( sena:@airi OR sena:@huro ) AND ( nuko:@trape )
   Sewell.generate({sena: 'airi OR huro', nuko: 'trape'}, 'OR') #=> ( sena:@airi OR sena:@huro ) OR ( nuko:@trape )
 
+  Sewell.generate({mashiro: '-inui airi'}) #=> ( mashiro:!inui AND mashiro:@airi )
+  Sewell.generate('-inui airi', ['mashiro']) #=> ( mashiro:!inui AND mashiro:@airi )
 ```
 
 ## Contributing

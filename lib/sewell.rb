@@ -19,13 +19,18 @@ module Sewell
 
   def self.from_hash hash, sep
     hash.map{|k,v| 
-      '( ' + v.split(' ').map{|x|
+      '( ' + build(v.split(' ').map{|x|
         if x == 'OR' or x == 'AND'
           x
         else
-          "#{k}:@#{sanitize x, /#{k}\:/}"
+          if x.split('').first == '-'
+            x.sub!(/^-/, '')
+            "#{k}:!#{sanitize x, /#{k}\:/}"
+          else
+            "#{k}:@#{sanitize x, /#{k}\:/}"
+          end
         end
-      }.join(' ') + ' )'
+      }) + ' )'
     }.join " #{sep} "
   end
 
@@ -37,12 +42,38 @@ module Sewell
       if x.scan(/:/).count == 1
         table = x.split(':').first
         word = x.split(':').last
-        q << "( #{table}:@#{sanitize word, /#{table}\:/} )"
+        if word.split('').first == '-'
+          q << "( #{table}:!#{sanitize word, /#{table}\:/} )"
+        else
+          q << "( #{table}:@#{sanitize word, /#{table}\:/} )"
+        end
       else
-        q << '( ' + tables.map{|t| "#{t}:@#{sanitize(x)}"}.join(' OR ') + ' )'
+        if x.split('').first == '-'
+          x.sub!(/^-/, '')
+          q << '( ' + tables.map{|t| "#{t}:!#{sanitize(x)}"}.join(' AND ') + ' )'
+        else
+          q << '( ' + tables.map{|t| "#{t}:@#{sanitize(x)}"}.join(' OR ') + ' )'
+        end
       end
     }
-    q.join ' '
+    build q
+  end
+
+  def self.build q
+    query = ''
+    q.each_with_index{|x,i|
+      next if x == 'OR' or x == 'AND'
+      if q[i+1] == 'OR' or q[i+1] == 'AND'
+        query += "#{x} #{q[i+1]} "
+      elsif q[i+1] != nil
+        query += "#{x} AND "
+      else
+        if x != 'AND' and x != 'OR'
+          query += x
+        end
+      end
+    }
+    query
   end
 
   def self.sanitize query, *ex
