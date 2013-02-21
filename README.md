@@ -1,6 +1,6 @@
 # Sewell
 
-TODO: Write a gem description
+Generator for Groonga's query.
 
 ## Installation
 
@@ -18,7 +18,10 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+``` ruby
+  query = Sewell.generate 'sena:airi OR mashiro AND nuko:buta', %w{sena uryu nuko} #=> ( sena:@airi ) OR ( sena:@mashiro OR uryu:@mashiro OR nuko:@mashiro ) AND ( nuko:@buta )
+  Groonga['SenaAiri'].select(query)
+```
 
 ## Contributing
 
