@@ -21,6 +21,10 @@ Or install it yourself as:
 ``` ruby
   query = Sewell.generate 'sena:airi OR mashiro AND nuko:buta', %w{sena uryu nuko} #=> ( sena:@airi ) OR ( sena:@mashiro OR uryu:@mashiro OR nuko:@mashiro ) AND ( nuko:@buta )
   Groonga['SenaAiri'].select(query)
+
+  Sewell.generate({sena: 'airi OR huro', nuko: 'trape'}, 'AND') #=> ( sena:@airi OR sena:@huro ) AND ( nuko:@trape )
+  Sewell.generate({sena: 'airi OR huro', nuko: 'trape'}, 'OR') #=> ( sena:@airi OR sena:@huro ) OR ( nuko:@trape )
+
 ```
 
 ## Contributing

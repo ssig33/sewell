@@ -3,17 +3,31 @@ require "sewell/version"
 
 module Sewell
   # Your code goes here...
-  def self.generate args, tables
-    raise TypeError unless tables.class == Array
+  def self.generate args, args2
     case args.class.to_s
     when 'String'
-      from_str args, tables
+      raise TypeError unless args2.class == Array
+      from_str args, args2
+    when 'Hash'
+      from_hash args, args2
     else
       raise TypeError
     end
   end
 
   private
+
+  def self.from_hash hash, sep
+    hash.map{|k,v| 
+      '( ' + v.split(' ').map{|x|
+        if x == 'OR' or x == 'AND'
+          x
+        else
+          "#{k}:@#{sanitize x, /#{k}\:/}"
+        end
+      }.join(' ') + ' )'
+    }.join " #{sep} "
+  end
 
   def self.from_str str, tables
     str.gsub!(/　/, ' ')
