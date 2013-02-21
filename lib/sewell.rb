@@ -17,7 +17,12 @@ module Sewell
 
   private
 
-  def self.from_hash hash, sep
+  def self.from_hash hash, s
+    if s == 'OR'
+      sep = 'OR'
+    else
+      sep = '+'
+    end
     hash.map{|k,v| 
       '( ' + build(v.split(' ').map{|x|
         if x == 'OR' or x == 'AND'
@@ -59,14 +64,21 @@ module Sewell
     build q
   end
 
-  def self.build q
+  def self.build q, *s
+    if s.first == 'OR'
+      sep = 'OR'
+    else
+      sep = '+'
+    end
     query = ''
     q.each_with_index{|x,i|
       next if x == 'OR' or x == 'AND'
-      if q[i+1] == 'OR' or q[i+1] == 'AND'
-        query += "#{x} #{q[i+1]} "
+      if q[i+1] == 'OR' 
+        query += "#{x} OR "
+      elsif q[i+1] == 'AND'
+        query += "#{x} + "
       elsif q[i+1] != nil
-        query += "#{x} AND "
+        query += "#{x} #{sep} "
       else
         if x != 'AND' and x != 'OR'
           query += x

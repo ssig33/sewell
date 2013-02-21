@@ -19,14 +19,14 @@ Or install it yourself as:
 ## Usage
 
 ``` ruby
-  query = Sewell.generate 'sena:airi OR mashiro AND nuko:buta', %w{sena uryu nuko} #=> ( sena:@airi ) OR ( sena:@mashiro OR uryu:@mashiro OR nuko:@mashiro ) AND ( nuko:@buta )
+  query = Sewell.generate 'sena:airi OR mashiro AND nuko:buta', %w{sena uryu nuko} #=> ( sena:@airi ) OR ( sena:@mashiro OR uryu:@mashiro OR nuko:@mashiro ) + ( nuko:@buta )
   Groonga['SenaAiri'].select(query)
 
-  Sewell.generate({sena: 'airi OR huro', nuko: 'trape'}, 'AND') #=> ( sena:@airi OR sena:@huro ) AND ( nuko:@trape )
+  Sewell.generate({sena: 'airi OR huro', nuko: 'trape'}, 'AND') #=> ( sena:@airi OR sena:@huro ) + ( nuko:@trape )
   Sewell.generate({sena: 'airi OR huro', nuko: 'trape'}, 'OR') #=> ( sena:@airi OR sena:@huro ) OR ( nuko:@trape )
 
-  Sewell.generate({mashiro: '-inui airi'}) #=> ( mashiro:!inui AND mashiro:@airi )
-  Sewell.generate('-inui airi', ['mashiro']) #=> ( mashiro:!inui AND mashiro:@airi )
+  Sewell.generate({mashiro: '-inui airi'}) #=> ( mashiro:!inui + mashiro:@airi )
+  Sewell.generate('-inui airi', ['mashiro']) #=> ( mashiro:!inui + mashiro:@airi )
 ```
 
 ## Contributing
