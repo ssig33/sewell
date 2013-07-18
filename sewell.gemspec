@@ -15,5 +15,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Sewell::VERSION
 
+  gem.licenses = ["MIT"]
+
   gem.add_development_dependency "rspec"  
 end
