@@ -39,14 +39,20 @@ module Sewell
     }.join " #{sep} "
   end
 
+  def self.escape_groonga str
+    str.gsub(/(\"|\'|\(|\)|\\)/, "\\#{$1}")
+  end
+
   def self.from_str str, tables
-    str.gsub!(/　/, ' ')
+    str.gsub!(/　|^:/, ' ')
+    str = escape_groonga(str)
     q = []
     str.split(' ').map{|x| 
       q << x and next if x == 'OR' or x == 'AND'
       if x.scan(/:/).count == 1
         table = x.split(':').first
         word = x.split(':').last
+        next unless word
         if word.split('').first == '-'
           q << "( #{table}:!#{sanitize word, /#{table}\:/} )"
         else
