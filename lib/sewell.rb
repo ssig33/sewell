@@ -40,7 +40,12 @@ module Sewell
   end
 
   def self.escape_groonga str
-    str.gsub(/(\"|\'|\(|\)|\\)/, "\\#{$1}")
+    s = str.dup
+    s.gsub!(/\"|\'|\\/, '\\&')
+    s.gsub!("(", '\(')
+    s.gsub!(")", '\)')
+    puts s
+    s
   end
 
   def self.from_str str, tables
@@ -107,6 +112,6 @@ module Sewell
     if ex.first
       query.gsub!(ex.first, '')  
     end
-    query.gsub(/(:|<|>|\[|\]|\(|\))/, '')
+    query.gsub(/(:|<|>|\[|\])/, '')
   end
 end
