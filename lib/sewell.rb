@@ -44,7 +44,6 @@ module Sewell
     s.gsub!(/\"|\'|\\/, '\\&')
     s.gsub!("(", '\(')
     s.gsub!(")", '\)')
-    puts s
     s
   end
 
