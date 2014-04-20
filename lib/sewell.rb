@@ -64,8 +64,12 @@ module Sewell
         end
       else
         if x.split('').first == '-'
-          x.sub!(/^-/, '')
-          q << ' - ( ' + tables.map{|t| "#{t}:@#{sanitize(x)}"}.join(' OR ') + ' )'
+          if x == '-'
+            q << '( ' + tables.map{|t| "#{t}:@#{sanitize(x)}"}.join(' OR ') + ' )'
+          else
+            x.sub!(/^-/, '')
+            q << ' - ( ' + tables.map{|t| "#{t}:@#{sanitize(x)}"}.join(' OR ') + ' )'
+          end
         else
           q << '( ' + tables.map{|t| "#{t}:@#{sanitize(x)}"}.join(' OR ') + ' )'
         end
