@@ -17,6 +17,6 @@ describe Sewell do
   end
 
   it 'can generate with "-"' do
-    Sewell.generate('ビジュメニア - Single', ['buta']).should == "( buta:@ビジュメニア ) + ( buta:@- ) + ( buta:@Single )"
+    Sewell.generate('ビジュメニア - Single', ['buta']).should == "( buta:@ビジュメニア ) + ( buta:@Single )"
   end
 end

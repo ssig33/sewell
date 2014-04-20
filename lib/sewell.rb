@@ -65,7 +65,6 @@ module Sewell
       else
         if x.split('').first == '-'
           if x == '-'
-            q << '( ' + tables.map{|t| "#{t}:@#{sanitize(x)}"}.join(' OR ') + ' )'
           else
             x.sub!(/^-/, '')
             q << ' - ( ' + tables.map{|t| "#{t}:@#{sanitize(x)}"}.join(' OR ') + ' )'
