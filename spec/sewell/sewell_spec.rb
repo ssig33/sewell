@@ -2,7 +2,6 @@ require 'spec_helper'
 require 'sewell'
 
 describe Sewell do
-=begin
   it 'raise TypeError unless input String' do
     lambda{Sewell.generate [], []}.should raise_error(TypeError)
   end
@@ -16,7 +15,6 @@ describe Sewell do
     Sewell.generate({sena: 'airi OR huro', nuko: 'trape'}, 'AND').should == '( sena:@airi OR sena:@huro ) + ( nuko:@trape )'
     Sewell.generate({mashiro: '-inui airi'}, 'AND').should == '( mashiro:@airi - mashiro:@inui )'
   end
-=end
 
   it 'can generate with "-"' do
     Sewell.generate('ビジュメニア - Single', ['buta']).should == "( buta:@ビジュメニア ) + ( buta:@- ) + ( buta:@Single )"
