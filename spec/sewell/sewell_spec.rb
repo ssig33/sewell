@@ -19,4 +19,8 @@ describe Sewell do
   it 'can generate with "-"' do
     Sewell.generate('ビジュメニア - Single', ['buta']).should == "( buta:@ビジュメニア ) + ( buta:@Single )"
   end
+
+  it 'can use "" with OR' do
+    Sewell.generate('グリザイア OR 終末のフラクタル OR 楽園の翼 OR あなたの愛した世界 OR "Rainy veil"', ['buta'])
+  end
 end
