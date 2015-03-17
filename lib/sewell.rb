@@ -51,7 +51,27 @@ module Sewell
     str.gsub!(/　|^:/, ' ')
     str = escape_groonga(str)
     q = []
-    str.split(' ').map{|x| 
+    ary = str.split(' ')
+    ary.each_with_index{|x,i| 
+      next if x.nil?
+      if x =~ /^\"/
+        original_x = x.dup
+        i = i + 1
+        is = []
+        while n = ary[i]
+          x = x + " #{n}"
+          is << i
+          break if ary[i] =~ /\"$/
+          i = i + 1
+        end
+        unless x =~ /\"$/
+          x = original_x 
+        else
+          is.each{|index| ary[index] = nil }
+        end
+        x = x.gsub('"', '')
+      end
+      
       q << x and next if x == 'OR' or x == 'AND'
       if x.scan(/:/).count == 1
         table = x.split(':').first
