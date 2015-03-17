@@ -65,11 +65,10 @@ module Sewell
           i = i + 1
         end
         unless x =~ /\"$/
-          x = original_x 
+          x = original_x.gsub('"', '')
         else
           is.each{|index| ary[index] = nil }
         end
-        x = x.gsub('"', '')
       end
       
       q << x and next if x == 'OR' or x == 'AND'

@@ -21,7 +21,7 @@ describe Sewell do
   end
 
   it 'can use "" with OR' do
-    Sewell.generate('"Rainy veil" OR あなたの愛した世界', ['buta']).should == "( buta:@Rainy veil ) OR ( buta:@あなたの愛した世界 )"
-    Sewell.generate('あなたの愛した世界 OR "Rainy veil"', ['buta']).should == "( buta:@あなたの愛した世界 ) OR ( buta:@Rainy veil )"
+    Sewell.generate('"Rainy veil" OR あなたの愛した世界', ['buta']).should == "( buta:@\"Rainy veil\" ) OR ( buta:@あなたの愛した世界 )"
+    Sewell.generate('あなたの愛した世界 OR "Rainy veil"', ['buta']).should == "( buta:@あなたの愛した世界 ) OR ( buta:@\"Rainy veil\" )"
   end
 end
