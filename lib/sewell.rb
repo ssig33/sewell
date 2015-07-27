@@ -133,6 +133,6 @@ module Sewell
     if ex.first
       query.gsub!(ex.first, '')  
     end
-    query.gsub(/(:|<|>|\[|\])/, '')
+    query.gsub(/(:|<|>|\[|\])|\+/, '')
   end
 end
